@@ -5,7 +5,6 @@ autom4te.cache/
 compile
 config.*
 configure
-configure.ac
 depcomp
 gtk-doc.m4
 gtk-doc.make
@@ -50,4 +49,11 @@ libxfce4util/test-suite.log
 xfce4-kiosk-query/xfce4-kiosk-query
 xfce4-kiosk-query/xfce4_kiosk_query-main.o
 
-python-example/html/
+/nbproject
+/python-example/html/
+
+docs/reference/html/
+docs/reference/xml/
+docs/reference/libxfce4util*
+!docs/reference/libxfce4util-sections.txt
+!docs/reference/libxfce4util-docs.xml

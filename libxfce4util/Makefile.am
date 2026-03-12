@@ -24,6 +24,8 @@ libxfce4util_headers =							\
 	xfce-debug.h							\
 	xfce-fileutils.h						\
 	xfce-generics.h							\
+	xfce-gio-extensions.h						\
+	xfce-string.h						\
 	xfce-i18n.h							\
 	xfce-kiosk.h							\
 	xfce-license.h							\
@@ -50,6 +52,8 @@ libxfce4util_la_SOURCES =						\
 	libxfce4util-private.c						\
 	libxfce4util-private.h						\
 	xfce-fileutils.c						\
+	xfce-gio-extensions.c						\
+	xfce-string.c						\
 	xfce-i18n.c							\
 	xfce-kiosk.c							\
 	xfce-license.c							\
@@ -102,7 +106,7 @@ if HAVE_INTROSPECTION
 introspection_sources = $(filter-out %private.h, $(libxfce4util_la_SOURCES))
 
 Libxfce4util-1.0.gir: libxfce4util.la Makefile
-Libxfce4util_1_0_gir_INCLUDES = GObject-2.0 GLib-2.0
+Libxfce4util_1_0_gir_INCLUDES = GObject-2.0 GLib-2.0 Gio-2.0
 Libxfce4util_1_0_gir_CFLAGS = $(AM_CPPFLAGS)
 Libxfce4util_1_0_gir_LIBS = libxfce4util.la
 Libxfce4util_1_0_gir_FILES = $(introspection_sources)
@@ -161,6 +165,7 @@ if ENABLE_VAPIGEN
 
 libxfce4util-1.0.vapi: Libxfce4util-1.0.gir
 
+VAPIGEN_DEPS = gio-2.0
 VAPIGEN_VAPIS = libxfce4util-1.0.vapi
 VAPIGEN_GIRDIRS = $(prefix)/share/gir-1.0
 

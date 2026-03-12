@@ -19,7 +19,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-#if !defined(LIBXFCE4UTIL_INSIDE_LIBXFCE4UTIL_H) && !defined(LIBXFCE4UTIL_COMPILATION)
+#if !defined(_LIBXFCE4UTIL_INSIDE_LIBXFCE4UTIL_H) && !defined(LIBXFCE4UTIL_COMPILATION)
 #error "Only <libxfce4util/libxfce4util.h> can be included directly, this file may disappear or change contents"
 #endif
 
@@ -67,7 +67,7 @@ G_BEGIN_DECLS
  * |[<!-- language="C" -->
  * typedef XFCE_GENERIC_STACK(double) MyDoubleStack;
  * ]|
- * and furtheron refer to your stack type as %MyDoubleStack.
+ * and furtheron refer to your stack type as `MyDoubleStack`.
  *
  */
 
@@ -85,7 +85,7 @@ G_BEGIN_DECLS
  * @StackType: Type of stack declared with #XFCE_GENERIC_STACK.
  *
  * Creates a new instance of @StackType and returns a pointer to the newly
- * created instance. For example, imagine you declared a type %MyDoubleStack
+ * created instance. For example, imagine you declared a type `MyDoubleStack`
  * as shown above, you can instantiate this type with
  *
  * |[<!-- language="C" -->

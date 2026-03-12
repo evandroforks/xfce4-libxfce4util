@@ -19,7 +19,7 @@
  * Boston, MA 02110-1301 USA
  */
 
-#if !defined(LIBXFCE4UTIL_INSIDE_LIBXFCE4UTIL_H) && !defined(LIBXFCE4UTIL_COMPILATION)
+#if !defined(_LIBXFCE4UTIL_INSIDE_LIBXFCE4UTIL_H) && !defined(LIBXFCE4UTIL_COMPILATION)
 #error "Only <libxfce4util/libxfce4util.h> can be included directly, this file may disappear or change contents"
 #endif
 
@@ -31,11 +31,6 @@
 #include <libxfce4util/xfce-debug.h>
 
 G_BEGIN_DECLS
-
-static inline gboolean xfce_str_is_empty (const gchar *str)
-{
-  return str == NULL || *str == '\0';
-}
 
 const gchar* xfce_version_string (void) G_GNUC_PURE;
 
@@ -91,7 +86,8 @@ gchar* xfce_expand_variables                 (const gchar  *command,
                                               gchar       **envp) G_GNUC_MALLOC;
 
 void   xfce_append_quoted                    (GString      *string,
-                                              const gchar  *unquoted);
+                                              const gchar  *unquoted)
+  G_GNUC_DEPRECATED_FOR (xfce_g_string_append_quoted());
 
 gchar* xfce_expand_desktop_entry_field_codes (const gchar  *command,
                                               GSList       *uri_list,
@@ -99,6 +95,8 @@ gchar* xfce_expand_desktop_entry_field_codes (const gchar  *command,
                                               const gchar  *name,
                                               const gchar  *uri,
                                               gboolean      requires_terminal) G_GNUC_MALLOC;
+
+gchar* xfce_unescape_desktop_entry_value     (const gchar  *value) G_GNUC_MALLOC;
 
 G_END_DECLS
 

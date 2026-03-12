@@ -138,7 +138,7 @@ internal_get_file_r (const gchar *dir,
   g_return_val_if_fail(format != NULL, NULL);
   g_return_val_if_fail(len > 0, NULL);
 
-  if ((n = g_strlcpy(buffer, dir, len)) >= len)
+  if (g_strlcpy(buffer, dir, len) >= len)
     return NULL;
 
   if ((n = g_strlcat(buffer, G_DIR_SEPARATOR_S, len)) >= len)
@@ -172,8 +172,8 @@ xfce_version_string (void)
 /**
  * xfce_get_homedir:
  *
- * Similar to g_get_homedir() in functionality but will never return NULL.
- * While g_get_homedir() may return NULL under certain circumstances, this
+ * Similar to g_get_home_dir() in functionality but will never return NULL.
+ * While g_get_home_dir() may return NULL under certain circumstances, this
  * function is garantied to never ever return NULL, but always return a
  * valid character pointer with the absolute path to the user's home directory.
  *
@@ -464,15 +464,20 @@ xfce_expand_variables (const gchar *command,
 
 
 
+/**
+ * xfce_append_quoted:
+ * @string: A #GString.
+ * @unquoted: A literal string.
+ *
+ * An alias of xfce_g_string_append_quoted().
+ *
+ * Deprecated: 4.17: Renamed to xfce_g_string_append_quoted()
+ **/
 void
-xfce_append_quoted (GString     *string,
-                    const gchar *unquoted)
+xfce_append_quoted (GString      *string,
+                    const gchar  *unquoted)
 {
-  gchar *quoted;
-
-  quoted = g_shell_quote (unquoted);
-  g_string_append (string, quoted);
-  g_free (quoted);
+  xfce_g_string_append_quoted (string, unquoted);
 }
 
 
@@ -529,7 +534,7 @@ xfce_expand_desktop_entry_field_codes (const gchar *command,
                   file = g_file_new_for_uri (li->data);
                   filename = g_file_get_path (file);
                   if (G_LIKELY (filename != NULL))
-                    xfce_append_quoted (string, filename);
+                    xfce_g_string_append_quoted (string, filename);
 
                   g_object_unref (file);
                   g_free (filename);
@@ -545,7 +550,7 @@ xfce_expand_desktop_entry_field_codes (const gchar *command,
             case 'U':
               for (li = uri_list; li != NULL; li = li->next)
                 {
-                  xfce_append_quoted (string, li->data);
+                  xfce_g_string_append_quoted (string, li->data);
 
                   if (*p == 'u')
                     break;
@@ -558,18 +563,18 @@ xfce_expand_desktop_entry_field_codes (const gchar *command,
               if (! xfce_str_is_empty (icon))
                 {
                   g_string_append (string, "--icon ");
-                  xfce_append_quoted (string, icon);
+                  xfce_g_string_append_quoted (string, icon);
                 }
               break;
 
             case 'c':
               if (! xfce_str_is_empty (name))
-                xfce_append_quoted (string, name);
+                xfce_g_string_append_quoted (string, name);
               break;
 
             case 'k':
               if (! xfce_str_is_empty (uri))
-                xfce_append_quoted (string, uri);
+                xfce_g_string_append_quoted (string, uri);
               break;
 
             case '%':
@@ -587,6 +592,69 @@ xfce_expand_desktop_entry_field_codes (const gchar *command,
 }
 
 
+
+/**
+ * xfce_unescape_desktop_entry_value:
+ * @value : Value string to replace escape sequences.
+ *
+ * Unescapes sequences in @value according to Freedesktop.org Desktop Entry Specification.
+ *
+ * Return value: %NULL on error, else the string, which should be freed using g_free() when
+ *               no longer needed.
+ *
+ * Since: 4.18
+ **/
+gchar*
+xfce_unescape_desktop_entry_value (const gchar *value)
+{
+  const gchar *p;
+  GString     *string;
+
+  if (G_UNLIKELY (value == NULL))
+    return NULL;
+
+  string = g_string_sized_new (strlen (value));
+
+  for (p = value; *p != '\0'; ++p)
+    {
+      if (G_UNLIKELY (p[0] == '\\' && p[1] != '\0'))
+        {
+          switch (*++p)
+            {
+            case 's':
+              g_string_append_c (string, ' ');
+              break;
+
+            case 'n':
+              g_string_append_c (string, '\n');
+              break;
+
+            case 't':
+              g_string_append_c (string, '\t');
+              break;
+
+            case 'r':
+              g_string_append_c (string, '\r');
+              break;
+
+            case '\\':
+              g_string_append_c (string, '\\');
+              break;
+
+            default:
+              g_string_append_c (string, *(p - 1));
+              g_string_append_c (string, *p);
+              break;
+            }
+        }
+      else
+        {
+          g_string_append_c (string, *p);
+        }
+    }
+
+  return g_string_free (string, FALSE);
+}
 
 #define __XFCE_MISCUTILS_C__
 #include <libxfce4util/libxfce4util-aliasdef.c>

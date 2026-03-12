@@ -1,3 +1,65 @@
+4.18.1 (2023-01-10)
+======
+- Handle remaining escape sequences
+- Fix desktop entry value escaping
+
+
+4.18.0 (2022-12-15)
+======
+- build: Bump requirements for Xfce 4.18
+
+4.17.4 (2022-11-30)
+======
+- bump copyright to 2022
+- docs: Fix return value of xfce_str_replace()
+
+4.17.3 (2022-10-31)
+======
+- Update COPYING (!27)
+- Bump GObject Introspection minim version to 1.66 (xfconf#8)
+- docs: Add missing index of deprecated symbols
+- docs: Fix broken links
+- docs: Fix "unused declarations" warning
+- docs: Update `.gitignore`
+- Remove limit on the size of configuration file line (!29)
+- Fix documentation of 'xfce_str_is_empty'
+- Clean the build system and use the new XDT_VERSION_INIT (!9)
+- Silence `-Wanalyzer-null-dereference` warnings
+- doc: Fix typo in `xfce_*_append_quoted()`
+- xfce-miscutils: Fix `deadcode.DeadStores` warning from `scan-build`
+- i18n: Make sure to set locale according to environment (!26)
+- Translation Updates:
+  Azerbaijani, Chinese (China), Georgian, Greek
+
+4.17.2
+======
+- Memo for future devs: Deprecate xfce_str_replace()
+- Fix document generation error
+- Remove duplicate xfce_str_is_empty ()
+- Move xfce_append_quoted () to xfce-string
+- Remove invalid custom ngettext() macro
+- Fix some GObject introspection warnings
+- Add missing G_BEGIN_DECLS and G_END_DECLS
+- Translation Updates:
+  Catalan, Galician, Italian
+
+4.17.1
+======
+- Create new function xfce_create_shared_thumbnail_path
+(Required for shared thumbnail support in thunar and tumbler)
+- usage of g_file_peek_path requires glib 2.56
+
+4.17.0
+======
+- Add xfce_unescape_desktop_entry_value
+- xfce-gio-extensions - management of gvfs trusted attribute
+- libxfce4util needs to be first character Capital
+- Partially revert "Fix (some) GObject introspection warnings"
+- Fix (some) GObject introspection warnings
+- Revamp the documentation to uniformize accross components
+- Translation Updates:
+  Belarusian, Estonian, Norwegian Bokmål, Spanish
+
 4.16.0
 ======
 - Prepare for 4.16 final release

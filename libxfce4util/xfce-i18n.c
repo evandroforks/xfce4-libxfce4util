@@ -159,6 +159,11 @@ xfce_textdomain (const gchar *package,
   g_return_if_fail (package != NULL);
   g_return_if_fail (localedir != NULL);
 
+  /* make sure to set locale according to the environment variables */
+#ifdef HAVE_SETLOCALE
+  setlocale (LC_ALL, "");
+#endif
+
   /* bind the text domain for the package to the given directory */
   bindtextdomain (package, localedir);
 
@@ -276,17 +281,14 @@ xfce_get_dir_localized_r (gchar *buffer, gsize length, const gchar *directory)
  * @filename : the filename
  * @test     : test
  *
- * @paths is a ':'-separated list of pathnames.
+ * @paths is a ':'-separated list of pathnames, with:
  *
- *  %F  - The @filename
- *  %L  - The language string, as returned by
- *      setlocale(LC_MESSAGES, NULL)
- *  %l  - The language component of the language string
- *  %N  - application name
+ * - `%F`: the @filename
+ * - `%L`: the language string, as returned by `setlocale(LC_MESSAGES, NULL)`
+ * - `%l`: the language component of the language string
+ * - `%N`: application name
  *
- * Example paths:
- *
- *  /usr/local/lib/%L/%F:/usr/local/share/%N/%l/%F
+ * Example paths: `/usr/local/lib/%L/%F:/usr/local/share/%N/%l/%F`
  *
  */
 gchar*

@@ -24,11 +24,14 @@
 
 #include <libxfce4util/libxfce4util.h>
 
+G_BEGIN_DECLS
+
 typedef struct _XfceRcConfig XfceRcConfig;
 typedef struct _XfceRcSimple XfceRcSimple;
 
 struct _XfceRc
 {
+  /*< private >*/
   void          (*close)        (XfceRc       *rc);
   void          (*flush)        (XfceRc       *rc);
   void          (*rollback)     (XfceRc       *rc);
@@ -133,5 +136,6 @@ G_GNUC_INTERNAL void          _xfce_rc_config_write_entry (XfceRc       *rc,
                                                            const gchar  *key,
                                                            const gchar  *value);
 
+G_END_DECLS
 
 #endif /* !__LIBXFCE4UTIL_XFCE_RC_PRIVATE_H__ */
